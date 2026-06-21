@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Search Typeahead</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="shell">
+      <header class="masthead">
+        <h1>Search Typeahead</h1>
+        <p class="sub">Prefix suggestions over 120k queries · distributed cache · recency-aware trending</p>
+      </header>
+
+      <section class="search-card">
+        <div class="search-row">
+          <div class="search-box">
+            <svg class="icn" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 21l-4.3-4.3M11 19a8 8 0 1 1 0-16 8 8 0 0 1 0 16z" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+            <input
+              id="q"
+              type="text"
+              autocomplete="off"
+              spellcheck="false"
+              placeholder="Search products, topics…  (try “iph”, “samsung”, “java”)"
+              aria-label="Search"
+              aria-expanded="false"
+              aria-controls="suggestions"
+              role="combobox"
+            />
+            <button id="clear" class="clear" aria-label="Clear" hidden>&times;</button>
+          </div>
+          <button id="go" class="go">Search</button>
+        </div>
+
+        <div class="mode-row">
+          <span class="mode-label">Ranking</span>
+          <div class="toggle" role="tablist" aria-label="Ranking mode">
+            <button class="seg active" data-mode="recency" role="tab">Recency-aware</button>
+            <button class="seg" data-mode="basic" role="tab">All-time count</button>
+          </div>
+          <span id="meta" class="meta"></span>
+        </div>
+
+        <ul id="suggestions" class="suggestions" role="listbox" hidden></ul>
+      </section>
+
+      <section id="result" class="result" hidden>
+        <span class="result-label">Response</span>
+        <code id="result-body"></code>
+      </section>
+
+      <div class="grid">
+        <section class="panel">
+          <h2>🔥 Trending now</h2>
+          <ol id="trending" class="trending"><li class="empty">No recent searches yet — submit a few searches.</li></ol>
+        </section>
+
+        <section class="panel">
+          <h2>📊 Live metrics</h2>
+          <dl id="stats" class="stats">
+            <div><dt>Cache hit rate</dt><dd id="m-hit">—</dd></div>
+            <div><dt>Suggest p95</dt><dd id="m-p95">—</dd></div>
+            <div><dt>DB reads / writes</dt><dd id="m-rw">—</dd></div>
+            <div><dt>Write reduction</dt><dd id="m-wr">—</dd></div>
+            <div><dt>Cache nodes</dt><dd id="m-nodes">—</dd></div>
+            <div><dt>Owning node (prefix)</dt><dd id="m-node">—</dd></div>
+          </dl>
+        </section>
+      </div>
+
+      <footer class="foot">
+        <span id="conn" class="dot">●</span>
+        <span id="conn-text">connecting…</span>
+        <span class="spacer"></span>
+        <a href="#" id="hint">↑ ↓ navigate · ⏎ search · esc close</a>
+      </footer>
+    </main>
+
+    <script src="app.js"></script>
+  </body>
+</html>

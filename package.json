@@ -1,0 +1,15 @@
+{
+  "name": "search-typeahead-system",
+  "version": "1.0.0",
+  "description": "Search typeahead system with consistent-hashing distributed cache, recency-aware trending, and batch writes.",
+  "type": "module",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "gen-data": "node scripts/generate-dataset.js",
+    "bench": "node scripts/benchmark.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2"
+  }
+}
