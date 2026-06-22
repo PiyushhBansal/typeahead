@@ -1,6 +1,3 @@
-/* Frontend controller: debounced suggestions, keyboard nav, search submit,
-   trending + live metrics polling. Talks to the backend APIs only. */
-
 const $ = (id) => document.getElementById(id);
 const input = $('q');
 const list = $('suggestions');
@@ -8,14 +5,13 @@ const clearBtn = $('clear');
 const meta = $('meta');
 
 let mode = 'recency';
-let items = []; // current suggestion objects
-let active = -1; // highlighted index for keyboard nav
-let lastReq = 0; // request sequence guard against out-of-order responses
+let items = [];
+let active = -1;
+let lastReq = 0;
 
 const DEBOUNCE_MS = 120;
 let debounceTimer = null;
 
-// ---------- Suggestions ----------
 function escapeHtml(s) {
   return s.replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 }
@@ -59,11 +55,11 @@ async function fetchSuggestions() {
   try {
     const r = await fetch(`/suggest?q=${encodeURIComponent(q)}&mode=${mode}`);
     const data = await r.json();
-    if (seq !== lastReq) return; // a newer request already came back
+    if (seq !== lastReq) return;
     items = data.suggestions || [];
     active = -1;
-    meta.innerHTML = `${data.latencyMs.toFixed(2)}ms · <span class="badge ${data.source === 'cache' ? 'hit' : 'miss'}">${data.source}</span> · ${data.node || '-'}`;
-    $('m-node').textContent = data.node || '—';
+    meta.innerHTML = `${data.latencyMs.toFixed(2)}ms <span class="badge ${data.source === 'cache' ? 'hit' : 'miss'}">${data.source}</span> ${data.node || '-'}`;
+    $('m-node').textContent = data.node || '-';
     render();
   } catch (e) {
     setConn(false);
@@ -75,9 +71,8 @@ function onInput() {
   debounceTimer = setTimeout(fetchSuggestions, DEBOUNCE_MS);
 }
 
-// ---------- Search submit ----------
 async function submitSearch(query) {
-  const q = (query ?? input.value).trim();
+  const q = (query !== undefined ? query : input.value).trim();
   if (!q) return;
   input.value = q;
   try {
@@ -98,7 +93,6 @@ async function submitSearch(query) {
   }
 }
 
-// ---------- Keyboard nav ----------
 input.addEventListener('keydown', (e) => {
   if (e.key === 'ArrowDown' && items.length) {
     e.preventDefault();
@@ -133,7 +127,6 @@ clearBtn.addEventListener('click', () => {
   input.focus();
 });
 
-// ---------- Mode toggle ----------
 document.querySelectorAll('.seg').forEach((btn) => {
   btn.addEventListener('click', () => {
     document.querySelectorAll('.seg').forEach((b) => b.classList.remove('active'));
@@ -143,20 +136,19 @@ document.querySelectorAll('.seg').forEach((btn) => {
   });
 });
 
-// ---------- Trending ----------
 async function refreshTrending() {
   try {
     const r = await fetch('/trending?limit=10');
     const { trending } = await r.json();
     const el = $('trending');
     if (!trending.length) {
-      el.innerHTML = '<li class="empty">No recent searches yet — submit a few searches.</li>';
+      el.innerHTML = '<li class="empty">No recent searches yet. Submit a few searches.</li>';
       return;
     }
     el.innerHTML = trending
       .map(
         (t) =>
-          `<li data-q="${encodeURIComponent(t.query)}"><span class="t-q">${escapeHtml(t.query)}</span><span class="t-v">${t.recent}↑</span></li>`
+          `<li data-q="${encodeURIComponent(t.query)}"><span class="t-q">${escapeHtml(t.query)}</span><span class="t-v">${t.recent}</span></li>`
       )
       .join('');
     el.querySelectorAll('li[data-q]').forEach((li) =>
@@ -171,7 +163,6 @@ async function refreshTrending() {
   }
 }
 
-// ---------- Stats ----------
 async function refreshStats() {
   try {
     const r = await fetch('/stats');
@@ -192,7 +183,6 @@ function setConn(ok) {
   $('conn-text').textContent = ok ? 'connected' : 'disconnected';
 }
 
-// ---------- Init ----------
 refreshTrending();
 refreshStats();
 setInterval(refreshTrending, 4000);

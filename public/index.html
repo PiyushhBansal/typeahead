@@ -10,7 +10,7 @@
     <main class="shell">
       <header class="masthead">
         <h1>Search Typeahead</h1>
-        <p class="sub">Prefix suggestions over 120k queries · distributed cache · recency-aware trending</p>
+        <p class="sub">Prefix suggestions over 120k queries with a distributed cache and recency-aware trending</p>
       </header>
 
       <section class="search-card">
@@ -22,7 +22,7 @@
               type="text"
               autocomplete="off"
               spellcheck="false"
-              placeholder="Search products, topics…  (try “iph”, “samsung”, “java”)"
+              placeholder="Search products or topics (try iph, samsung, java)"
               aria-label="Search"
               aria-expanded="false"
               aria-controls="suggestions"
@@ -52,28 +52,28 @@
 
       <div class="grid">
         <section class="panel">
-          <h2>🔥 Trending now</h2>
-          <ol id="trending" class="trending"><li class="empty">No recent searches yet — submit a few searches.</li></ol>
+          <h2>Trending now</h2>
+          <ol id="trending" class="trending"><li class="empty">No recent searches yet. Submit a few searches.</li></ol>
         </section>
 
         <section class="panel">
-          <h2>📊 Live metrics</h2>
+          <h2>Live metrics</h2>
           <dl id="stats" class="stats">
-            <div><dt>Cache hit rate</dt><dd id="m-hit">—</dd></div>
-            <div><dt>Suggest p95</dt><dd id="m-p95">—</dd></div>
-            <div><dt>DB reads / writes</dt><dd id="m-rw">—</dd></div>
-            <div><dt>Write reduction</dt><dd id="m-wr">—</dd></div>
-            <div><dt>Cache nodes</dt><dd id="m-nodes">—</dd></div>
-            <div><dt>Owning node (prefix)</dt><dd id="m-node">—</dd></div>
+            <div><dt>Cache hit rate</dt><dd id="m-hit">-</dd></div>
+            <div><dt>Suggest p95</dt><dd id="m-p95">-</dd></div>
+            <div><dt>DB reads / writes</dt><dd id="m-rw">-</dd></div>
+            <div><dt>Write reduction</dt><dd id="m-wr">-</dd></div>
+            <div><dt>Cache nodes</dt><dd id="m-nodes">-</dd></div>
+            <div><dt>Owning node (prefix)</dt><dd id="m-node">-</dd></div>
           </dl>
         </section>
       </div>
 
       <footer class="foot">
-        <span id="conn" class="dot">●</span>
-        <span id="conn-text">connecting…</span>
+        <span id="conn" class="dot">&#9679;</span>
+        <span id="conn-text">connecting</span>
         <span class="spacer"></span>
-        <a href="#" id="hint">↑ ↓ navigate · ⏎ search · esc close</a>
+        <a href="#" id="hint">up/down to navigate, enter to search, esc to close</a>
       </footer>
     </main>
 
